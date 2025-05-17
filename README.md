@@ -1,2 +1,2 @@
-# EmailX
-An email tool for the future
+# smsx
+An SMS Tool for the future
