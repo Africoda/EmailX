@@ -23,17 +23,27 @@ export const login: AppRouteHandler<LoginRoute> = async (c) => {
 
   const user = await Auth.login(email, password);
 
-  if (!user) {
-    return c.json({
-      message: "Invalid email or password",
-    }, HttpStatusCodes.UNAUTHORIZED);
+  if (!user || !user.id) {
+    return c.json(
+      {
+        message: "Invalid email or password",
+      },
+      HttpStatusCodes.UNAUTHORIZED
+    );
   }
 
-  const token = jwt.sign(
-    { userId: user.id },
-    env.JWT_SECRET,
-    { expiresIn: "24h" },
-  );
+  if (!env.JWT_SECRET) {
+    return c.json(
+      {
+        message: "Server configuration error: JWT secret is not set.",
+      },
+      HttpStatusCodes.INTERNAL_SERVER_ERROR
+    );
+  }
+
+  const token = jwt.sign({ userId: user.id }, env.JWT_SECRET, {
+    expiresIn: "24h",
+  });
 
   c.header("Access-Control-Allow-Credentials", "true");
   c.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
@@ -47,9 +57,12 @@ export const login: AppRouteHandler<LoginRoute> = async (c) => {
     httpOnly: true,
   });
 
-  return c.json({
-    token,
-    user,
-    message: "Login Successful",
-  }, HttpStatusCodes.OK);
+  return c.json(
+    {
+      token,
+      user,
+      message: "Login Successful",
+    },
+    HttpStatusCodes.OK
+  );
 };

@@ -8,15 +8,18 @@ const Auth = {
   async register(email: string, password: string) {
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    const [user] = await db.insert(users).values({
-      email,
-      password: hashedPassword,
-    }).returning({
-      id: users.id,
-      email: users.email,
-      createdAt: users.createdAt,
-      updatedAt: users.updatedAt,
-    });
+    const [user] = await db
+      .insert(users)
+      .values({
+        email,
+        password: hashedPassword,
+      })
+      .returning({
+        id: users.id,
+        email: users.email,
+        createdAt: users.createdAt,
+        updatedAt: users.updatedAt,
+      });
 
     return user;
   },
@@ -24,7 +27,6 @@ const Auth = {
   async login(email: string, password: string) {
     const user = await db.query.users.findFirst({
       where: eq(users.email, email),
-
     });
 
     if (!user || !(await bcrypt.compare(password, user.password))) {
