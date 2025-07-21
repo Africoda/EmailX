@@ -1,11 +1,11 @@
 {
-  "id": "8d92f7ea-7008-4833-baf9-7d5b3505fd6e",
-  "prevId": "00000000-0000-0000-0000-000000000000",
+  "id": "f19e7470-bff9-45de-a0c3-fef84d66aa45",
+  "prevId": "8d92f7ea-7008-4833-baf9-7d5b3505fd6e",
   "version": "7",
   "dialect": "postgresql",
   "tables": {
-    "public.emails": {
-      "name": "emails",
+    "public.email_templates": {
+      "name": "email_templates",
       "schema": "",
       "columns": {
         "id": {
@@ -52,8 +52,8 @@
       "foreignKeys": {},
       "compositePrimaryKeys": {},
       "uniqueConstraints": {
-        "emails_subject_unique": {
-          "name": "emails_subject_unique",
+        "email_templates_subject_unique": {
+          "name": "email_templates_subject_unique",
           "nullsNotDistinct": false,
           "columns": [
             "subject"

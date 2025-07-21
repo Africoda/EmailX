@@ -5,17 +5,14 @@ import * as jwt from "jsonwebtoken";
 import * as HttpStatusCodes from "stoker/http-status-codes";
 
 import db from "@/db";
-import { users } from "@/db/schema";
+import { users } from "@/db/schema/schema";
 import env from "@/env";
 
 export const authMiddleware: MiddlewareHandler = async (c, next) => {
   const token = c.req.header("Authorization")?.replace("Bearer ", "");
 
   if (!token) {
-    return c.json(
-      { message: "Unauthorized" },
-      HttpStatusCodes.UNAUTHORIZED,
-    );
+    return c.json({ message: "Unauthorized" }, HttpStatusCodes.UNAUTHORIZED);
   }
 
   try {
@@ -25,19 +22,12 @@ export const authMiddleware: MiddlewareHandler = async (c, next) => {
     });
 
     if (!user) {
-      return c.json(
-        { message: "Unauthorized" },
-        HttpStatusCodes.UNAUTHORIZED,
-      );
+      return c.json({ message: "Unauthorized" }, HttpStatusCodes.UNAUTHORIZED);
     }
 
     c.set("user", user);
     await next();
-  }
-  catch {
-    return c.json(
-      { message: "Unauthorized" },
-      HttpStatusCodes.UNAUTHORIZED,
-    );
+  } catch {
+    return c.json({ message: "Unauthorized" }, HttpStatusCodes.UNAUTHORIZED);
   }
 };

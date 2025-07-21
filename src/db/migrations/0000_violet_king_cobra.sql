@@ -1,3 +1,13 @@
+CREATE TABLE IF NOT EXISTS "emails" (
+	"id" uuid PRIMARY KEY DEFAULT gen_random_uuid() NOT NULL,
+	"name" text NOT NULL,
+	"subject" text NOT NULL,
+	"body" text NOT NULL,
+	"created_at" timestamp DEFAULT now(),
+	"updated_at" timestamp DEFAULT now(),
+	CONSTRAINT "emails_subject_unique" UNIQUE("subject")
+);
+--> statement-breakpoint
 CREATE TABLE IF NOT EXISTS "notifications" (
 	"id" uuid PRIMARY KEY DEFAULT gen_random_uuid() NOT NULL,
 	"title" varchar(255) NOT NULL,
