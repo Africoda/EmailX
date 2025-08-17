@@ -5,6 +5,7 @@ import env from "@/env";
 
 import * as notificationSchema from "./schema/notifications";
 import * as schema from "./schema/schema";
+import * as user_config from "./schema/config";
 
 const client = postgres(env.DATABASE_URL, {
   max: 10,
